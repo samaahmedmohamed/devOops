@@ -42,3 +42,30 @@ jobs:
         with:
           name: Mocha-Test-Result
           path: test-results.yml
+
+  code-coverage:
+    name: Code Coverage
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Setup Node.js Version 18
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+
+      - name: Install Dependencies
+        run: npm install
+
+      - name: Check Code Coverage
+        continue-on-error: true
+        run: npm run coverage
+
+      - name: Archive Coverage Result
+        uses: actions/upload-artifact@v3
+        with:
+          name: code-coverage-Result
+          path: coverage
+          retention-days: 5
